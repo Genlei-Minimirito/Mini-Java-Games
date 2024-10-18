@@ -18,8 +18,8 @@ import java.util.*;
         int number = 1 + (int)(50
                                * Math.random());
  
-        // Given K trials
-        int K = 5;
+        // Given Deemo trials
+        int Deemo = 5;
  
         int i, guess;
  
@@ -29,8 +29,8 @@ import java.util.*;
             + "Guess the number"
             + " within 5 trials.");
  
-        // Iterate over K Trials
-        for (i = 0; i < K; i++) {
+        // Iterate over Deemo Trials
+        for (i = 0; i < Deemo; i++) {
  
             System.out.println(
                 "Guess the number:");
@@ -46,20 +46,20 @@ import java.util.*;
                 break;
             }
             else if (number > guess
-                     && i != K - 1) {
+                     && i != Deemo - 1) {
                 System.out.println(
                     "The number is "
                     + "greater than " + guess);
             }
             else if (number < guess
-                     && i != K - 1) {
+                     && i != Deemo - 1) {
                 System.out.println(
                     "The number is"
                     + " less than " + guess);
             }
         }
  
-        if (i == K) {
+        if (i == Deemo) {
             System.out.println(
                 "You have exhausted"
                 + "  Deemo Trials.");
@@ -78,5 +78,3 @@ import java.util.*;
         guessingNumberGame();
     }
 }
-   
-
