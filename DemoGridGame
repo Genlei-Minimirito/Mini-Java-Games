@@ -1,0 +1,115 @@
+import java.util.*;
+
+ // Compiler version JDK 11.0.2
+
+ 
+
+public class DemoGridGame {
+
+    // Define grid dimensions
+    static int gridWidth = 10;
+    static int gridHeight = 10;
+
+    // Define player position
+    static int playerX = 0;
+    static int playerY = 0;
+
+    // Define grid
+    static char[][] grid = new char[gridHeight][gridWidth];
+
+    // Random object for placing obstacles
+    static Random random = new Random();
+
+    public static void main(String[] args) {
+        // Initialize grid and place obstacles
+        initializeGrid();
+
+        // Main game loop
+        Scanner scanner = new Scanner(System.in);
+        boolean gameRunning = true;
+
+        while (gameRunning) {
+            // Print grid
+            printGrid();
+
+            // Get player move
+            System.out.print("Move (WASD): ");
+            char move = scanner.nextLine().toUpperCase().charAt(0);
+
+            // Update player position
+            if (!updatePlayerPosition(move)) {
+                System.out.println("You hit an obstacle! Game Over.");
+                gameRunning = false;
+            } else {
+                System.out.println("You moved.");
+            }
+        }
+
+        scanner.close();
+    }
+
+    // Initialize the grid with empty spaces and random obstacles
+    private static void initializeGrid() {
+        for (int y = 0; y < gridHeight; y++) {
+            for (int x = 0; x < gridWidth; x++) {
+                // Randomly place obstacles (10% chance per grid cell)
+                if (random.nextInt(10) == 0 && !(x == playerX && y == playerY)) {
+                    grid[y][x] = 'X'; // Obstacle
+                } else {
+                    grid[y][x] = '.'; // Empty space
+                }
+            }
+        }
+        grid[playerY][playerX] = 'P'; // Place the player at the starting position
+    }
+
+    // Print the grid to the console
+    private static void printGrid() {
+        for (int y = 0; y < gridHeight; y++) {
+            for (int x = 0; x < gridWidth; x++) {
+                System.out.print(grid[y][x] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    // Update the player's position based on the input move
+    private static boolean updatePlayerPosition(char move) {
+        // Current position
+        int newX = playerX;
+        int newY = playerY;
+
+        // Update position based on move (WASD controls)
+        switch (move) {
+            case 'W': // Move up
+                newY = (playerY > 0) ? playerY - 1 : playerY;
+                break;
+            case 'S': // Move down
+                newY = (playerY < gridHeight - 1) ? playerY + 1 : playerY;
+                break;
+            case 'A': // Move left
+                newX = (playerX > 0) ? playerX - 1 : playerX;
+                break;
+            case 'D': // Move right
+                newX = (playerX < gridWidth - 1) ? playerX + 1 : playerX;
+                break;
+            default:
+                System.out.println("Invalid move! Use W, A, S, D to move.");
+                return true; // Invalid input, no change in position
+        }
+
+        // Check if the player hits an obstacle
+        if (grid[newY][newX] == 'X') {
+            return false; // Game over
+        }
+
+        // Update player position in the grid
+        grid[playerY][playerX] = '.'; // Clear old position
+        playerX = newX;
+        playerY = newY;
+        grid[playerY][playerX] = 'P'; // Mark new position
+        return true;
+    }
+}
+   
+ 
